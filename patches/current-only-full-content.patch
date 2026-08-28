@@ -1,0 +1,4 @@
+# current-page-only: neighbor preview + full AgendaPeriodContent on currentPage only
+# beyondViewportPageCount back to 1
+# Removed VERIFICATION_UNIFIED_RESOLVER (all pages full parse)
+# Removed simplifyNeighborPages (replaced by !isCurrentPage early return)

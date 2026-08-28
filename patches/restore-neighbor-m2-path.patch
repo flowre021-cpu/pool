@@ -1,0 +1,14 @@
+# Restore neighbor rendering to pre-AgendaNeighborPreview state (M2 three-path)
+#
+# Reverted (caused regression - no grid / blank on drag):
+# - AgendaNeighborPreview + !isCurrentPage early return
+# - resolveNeighborWeekState + isCurrentPage weekState split
+# - simplifyContent = !isCurrentPage (always)
+# - VERIFICATION_UNIFIED_RESOLVER single path
+#
+# Restored:
+# - Recentering: remember(resolveRecenteringWeekState)
+# - Center: resolveCenterPageWeekState + vmTick
+# - Neighbor: produceState(resolvePagerWeekState) + AgendaPeriodContent
+# - simplifyNeighborPages = isScrollInProgress && phase==Idle
+# - neighbor initialValue reads cache (P2 parity; was emptyMap in original M2)

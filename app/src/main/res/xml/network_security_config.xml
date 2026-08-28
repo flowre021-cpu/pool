@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 北航教务登录后会跳转到 http://byxt.buaa.edu.cn/...，需允许校内域名明文 HTTP -->
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">buaa.edu.cn</domain>
+    </domain-config>
+</network-security-config>

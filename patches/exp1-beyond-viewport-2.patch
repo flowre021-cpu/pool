@@ -1,0 +1,11 @@
+--- a/app/src/main/java/com/example/pool/ui/home/SevenDayAgendaPage.kt
++++ b/app/src/main/java/com/example/pool/ui/home/SevenDayAgendaPage.kt
+@@ -325,7 +325,7 @@
+ 
+     HorizontalPager(
+         state = periodPager,
+-        beyondViewportPageCount = 1,
++        beyondViewportPageCount = 2,
+         userScrollEnabled = pagerPhase == PagerPhase.Idle,
+         modifier = modifier.fillMaxSize(),
+     ) { page ->

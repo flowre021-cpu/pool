@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Pool</string>
+    <string name="widget_today_schedule_label">今日安排</string>
+    <string name="widget_today_schedule_description">今日课程与日程</string>
+    <string name="widget_ddl_label">待办 DDL</string>
+    <string name="widget_ddl_description">最近截止的待办</string>
+    <string name="widget_reminder_label">今日提醒</string>
+    <string name="widget_reminder_description">今日应显示的提醒</string>
+</resources>

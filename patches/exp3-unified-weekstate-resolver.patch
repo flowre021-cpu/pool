@@ -1,0 +1,22 @@
+diff --git a/app/src/main/java/com/example/pool/ui/home/HomeAgendaState.kt b/app/src/main/java/com/example/pool/ui/home/HomeAgendaState.kt
+--- a/app/src/main/java/com/example/pool/ui/home/HomeAgendaState.kt
++++ b/app/src/main/java/com/example/pool/ui/home/HomeAgendaState.kt
+@@
++/** 验证用：center / neighbor / Recentering 统一解析，输入仅 pageAnchor + 当前 VM 快照 */
++internal fun resolvePageWeekState(
++    pageAnchor: LocalDate,
++    currentWeek: HomeUiState,
++    weekStatesByAnchor: Map<Long, HomeUiState>,
++): HomeUiState = resolvePagerWeekState(
++    pageAnchor = pageAnchor,
++    currentWeek = currentWeek,
++    weekStatesByAnchor = weekStatesByAnchor,
++)
++
+ diff --git a/app/src/main/java/com/example/pool/ui/home/SevenDayAgendaPage.kt b/app/src/main/java/com/example/pool/ui/home/SevenDayAgendaPage.kt
+--- a/app/src/main/java/com/example/pool/ui/home/SevenDayAgendaPage.kt
++++ b/app/src/main/java/com/example/pool/ui/home/SevenDayAgendaPage.kt
+@@ AgendaPagerPageSlot weekState block
+-    val weekState = key(pagerPhase, displayAnchor, pageAnchor, pending...) { when { recentering | center | neighbor } }
++    // VERIFICATION_UNIFIED_RESOLVER: resolvePageWeekState(pageAnchor, centerWeekState, cache[anchorEpoch])
++    val centerDataPending = isCenterPage && weekState.weekDates.isEmpty()

@@ -1,0 +1,10 @@
+--- a/app/src/main/java/com/example/pool/ui/home/SevenDayAgendaPage.kt
++++ b/app/src/main/java/com/example/pool/ui/home/SevenDayAgendaPage.kt
+@@ -403,7 +403,6 @@
+ ) {
+     val anchorEpoch = pageAnchor.toEpochDay()
+     val weekState = key(
+-        pagerPhase,
+         displayAnchor,
+         pageAnchor,
+         pendingCenterPresentation?.anchorDate,

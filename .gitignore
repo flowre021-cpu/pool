@@ -1,0 +1,24 @@
+*.iml
+.gradle
+local.properties
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+
+# IDE / editor（含本机路径、设备序列号等）
+.idea/
+
+# Cursor 本地技能与配置
+.cursor/
+
+# 构建产物
+*.apk
+*.aab
+*.ap_
+*.dex
+
+# 密钥（若以后添加签名配置，切勿提交）
+*.jks
+*.keystore
