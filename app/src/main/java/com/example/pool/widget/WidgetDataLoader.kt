@@ -29,7 +29,7 @@ object WidgetDataLoader {
         val semester = semesters.firstOrNull { SemesterCalendar.contains(it, today) }
             ?: scheduleRepository.getActiveSemester()
         val scopedCourses = courses.filter { course ->
-            semester == null || course.semesterId == null || course.semesterId == semester.id
+            semester == null || course.semesterId == semester.id
         }
 
         return WidgetSnapshot(

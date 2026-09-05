@@ -176,6 +176,7 @@ fun PoolApp(
                     navController.navigate(NavRoutes.courseEdit(courseId))
                 },
                 onOpenSettings = { navController.navigate(NavRoutes.SCHEDULE_SETTINGS) },
+                onOpenImport = { navController.navigate(NavRoutes.SCHEDULE_IMPORT) },
             )
         }
         composable(NavRoutes.SCHEDULE_SETTINGS) {

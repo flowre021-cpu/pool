@@ -53,6 +53,6 @@ class BuaaTermSelectionTest {
     fun fetchMode_matchesBuaaApi() {
         assertEquals(BuaaScheduleFetchMode.BY_WEEK, BuaaTermSelection.fetchMode(BuaaTermSeason.SPRING))
         assertEquals(BuaaScheduleFetchMode.BY_WEEK, BuaaTermSelection.fetchMode(BuaaTermSeason.SUMMER))
-        assertEquals(BuaaScheduleFetchMode.BY_CLASS, BuaaTermSelection.fetchMode(BuaaTermSeason.AUTUMN))
+        assertEquals(BuaaScheduleFetchMode.BY_WEEK, BuaaTermSelection.fetchMode(BuaaTermSeason.AUTUMN))
     }
 }

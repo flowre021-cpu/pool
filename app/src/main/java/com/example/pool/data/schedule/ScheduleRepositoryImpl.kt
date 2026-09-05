@@ -232,7 +232,7 @@ class ScheduleRepositoryImpl(
     }
 
     suspend fun seedIfEmpty() {
-        timeSlotDao.seedIfEmpty(defaultTimeSlots())
+        timeSlotDao.ensureDefaultSlots(defaultTimeSlots())
         semesterDao.seedIfEmpty(
             listOf(
                 SemesterEntity(
@@ -252,33 +252,6 @@ class ScheduleRepositoryImpl(
             ),
         )
         ensureActiveSemester()
-        courseDao.seedIfEmpty(
-            listOf(
-                CourseEntity(
-                    groupId = "sample-math",
-                    name = "高等数学",
-                    teacher = "张教授",
-                    note = "记得带计算器",
-                    cardColor = 0xFFF0A8A8L,
-                    selectedWeeks = defaultSelectedWeeks(),
-                    dayOfWeek = 1,
-                    startSection = 3,
-                    endSection = 4,
-                    location = "教三 201",
-                ),
-                CourseEntity(
-                    groupId = "sample-english",
-                    name = "大学英语",
-                    teacher = "李老师",
-                    cardColor = 0xFF88D4BCL,
-                    selectedWeeks = defaultSelectedWeeks(),
-                    dayOfWeek = 3,
-                    startSection = 5,
-                    endSection = 6,
-                    location = "外语楼 105",
-                ),
-            ),
-        )
     }
 
     /** 自动切换到包含今天的学期；假期中保留用户最后选择的学期。 */
@@ -296,17 +269,19 @@ class ScheduleRepositoryImpl(
     companion object {
         fun defaultTimeSlots(): List<TimeSlotEntity> = listOf(
             TimeSlotEntity(1, 8 * 60, 8 * 60 + 45),
-            TimeSlotEntity(2, 8 * 60 + 55, 9 * 60 + 40),
-            TimeSlotEntity(3, 10 * 60, 10 * 60 + 45),
-            TimeSlotEntity(4, 10 * 60 + 55, 11 * 60 + 40),
-            TimeSlotEntity(5, 13 * 60 + 30, 14 * 60 + 15),
-            TimeSlotEntity(6, 14 * 60 + 25, 15 * 60 + 10),
-            TimeSlotEntity(7, 15 * 60 + 20, 16 * 60 + 5),
-            TimeSlotEntity(8, 16 * 60 + 15, 17 * 60),
-            TimeSlotEntity(9, 18 * 60 + 30, 19 * 60 + 15),
-            TimeSlotEntity(10, 19 * 60 + 25, 20 * 60 + 10),
-            TimeSlotEntity(11, 20 * 60 + 20, 21 * 60 + 5),
-            TimeSlotEntity(12, 21 * 60 + 15, 22 * 60),
+            TimeSlotEntity(2, 8 * 60 + 50, 9 * 60 + 35),
+            TimeSlotEntity(3, 9 * 60 + 50, 10 * 60 + 35),
+            TimeSlotEntity(4, 10 * 60 + 40, 11 * 60 + 25),
+            TimeSlotEntity(5, 11 * 60 + 30, 12 * 60 + 15),
+            TimeSlotEntity(6, 14 * 60, 14 * 60 + 45),
+            TimeSlotEntity(7, 14 * 60 + 50, 15 * 60 + 35),
+            TimeSlotEntity(8, 15 * 60 + 50, 16 * 60 + 35),
+            TimeSlotEntity(9, 16 * 60 + 40, 17 * 60 + 25),
+            TimeSlotEntity(10, 17 * 60 + 30, 18 * 60 + 15),
+            TimeSlotEntity(11, 19 * 60, 19 * 60 + 45),
+            TimeSlotEntity(12, 19 * 60 + 50, 20 * 60 + 35),
+            TimeSlotEntity(13, 20 * 60 + 40, 21 * 60 + 25),
+            TimeSlotEntity(14, 21 * 60 + 30, 22 * 60 + 15),
         )
     }
 }

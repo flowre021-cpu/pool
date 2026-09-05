@@ -6,10 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.pool.data.AffairType
 import com.example.pool.data.PlannerRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
@@ -25,9 +23,6 @@ class TimelineViewModel(
 
     private var timelinePipelineJob: Job? = null
 
-    private val _showReminders = MutableStateFlow(false)
-    val showReminders: StateFlow<Boolean> = _showReminders.asStateFlow()
-
     private val tasksFlow = plannerRepository.getByType(AffairType.TASK)
     private val opportunitiesFlow = plannerRepository.getByType(AffairType.OPPORTUNITY)
     private val remindersFlow = plannerRepository.getByType(AffairType.REMINDER)
@@ -36,13 +31,12 @@ class TimelineViewModel(
         tasksFlow,
         opportunitiesFlow,
         remindersFlow,
-        showReminders,
-    ) { tasks, opportunities, reminders, showRemindersFlag ->
+    ) { tasks, opportunities, reminders ->
         buildTimelineUiState(
             tasks = tasks,
             opportunities = opportunities,
             reminders = reminders,
-            showReminders = showRemindersFlag,
+            showReminders = true,
         )
     }
         .flowOn(Dispatchers.Default)
@@ -53,7 +47,7 @@ class TimelineViewModel(
                 tasks = emptyList(),
                 opportunities = emptyList(),
                 reminders = emptyList(),
-                showReminders = false,
+                showReminders = true,
             ),
         )
 
@@ -63,10 +57,6 @@ class TimelineViewModel(
         timelinePipelineJob = viewModelScope.launch {
             uiState.collect { }
         }
-    }
-
-    fun setShowReminders(show: Boolean) {
-        _showReminders.value = show
     }
 
     fun dayDetail(date: LocalDate): TimelineDayDetail =

@@ -59,6 +59,12 @@ fun ScheduleSettingsScreen(
             PoolBlock1(modifier = Modifier.padding(top = 12.dp)) {
                 Column {
                     PoolNavRow(
+                        title = "北航教务课表导入",
+                        subtitle = "网页登录 · 选择学期 · 一键导入",
+                        onClick = onOpenImport,
+                    )
+                    PoolDivider()
+                    PoolNavRow(
                         title = "学期设置",
                         subtitle = "当前学期 · 教学周数 · 起止周",
                         onClick = onOpenSemesters,
@@ -68,12 +74,6 @@ fun ScheduleSettingsScreen(
                         title = "课程管理",
                         subtitle = "查看与编辑全部课程",
                         onClick = onOpenCourseManagement,
-                    )
-                    PoolDivider()
-                    PoolNavRow(
-                        title = "从教务导入",
-                        subtitle = "北航本研教育管理系统 · WebView 登录抓取",
-                        onClick = onOpenImport,
                     )
                     PoolDivider()
                     PoolNavRow(

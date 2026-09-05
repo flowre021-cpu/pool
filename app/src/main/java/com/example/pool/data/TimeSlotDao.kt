@@ -26,8 +26,10 @@ interface TimeSlotDao {
     suspend fun update(slot: TimeSlotEntity)
 
     @Transaction
-    suspend fun seedIfEmpty(slots: List<TimeSlotEntity>) {
-        if (countAll() == 0) {
+    suspend fun ensureDefaultSlots(slots: List<TimeSlotEntity>) {
+        // Older installs contain only 12 rows with obsolete times. Replace that
+        // incomplete preset once; a complete 14-row user-edited table is preserved.
+        if (countAll() < slots.size) {
             insertAll(slots)
         }
     }

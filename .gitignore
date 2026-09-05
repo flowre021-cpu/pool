@@ -22,3 +22,4 @@ local.properties
 # 密钥（若以后添加签名配置，切勿提交）
 *.jks
 *.keystore
+keystore.properties

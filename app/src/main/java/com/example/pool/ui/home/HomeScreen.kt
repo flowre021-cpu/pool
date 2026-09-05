@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -167,15 +166,12 @@ fun HomeScreen(
                     .padding(horizontal = 16.dp, vertical = 4.dp),
             )
 
-            HorizontalPager(
-                state = homeTabState.pagerState,
-                beyondViewportPageCount = homeTabState.beyondViewportPageCount,
-                userScrollEnabled = false,
+            Box(
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxWidth(),
-            ) { page ->
-                when (page) {
+            ) {
+                when (homeTabState.currentPage) {
                     PAGE_TIMELINE -> HomeTimelinePageHost(
                         viewModel = timelineViewModel,
                         onEditTask = onEditTask,
@@ -213,13 +209,10 @@ private fun HomeTimelinePageHost(
     }
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val showReminders by viewModel.showReminders.collectAsStateWithLifecycle()
     var selectedDay by remember { mutableStateOf<LocalDate?>(null) }
 
     FourteenDayTimelinePage(
         uiState = uiState,
-        showReminders = showReminders,
-        onShowRemindersChange = viewModel::setShowReminders,
         onDayClick = { selectedDay = it },
         onEditTask = {
             selectedDay = null

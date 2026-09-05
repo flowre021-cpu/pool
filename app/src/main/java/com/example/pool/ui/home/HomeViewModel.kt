@@ -53,7 +53,7 @@ class HomeViewModel(
         plannerRepository.getByType(AffairType.EVENT),
     ) { courses, timeSlots, semester, events ->
         val scopedCourses = courses.filter { course ->
-            semester == null || course.semesterId == null || course.semesterId == semester.id
+            semester == null || course.semesterId == semester.id
         }
         HomeAgendaInputs(
             courses = scopedCourses,

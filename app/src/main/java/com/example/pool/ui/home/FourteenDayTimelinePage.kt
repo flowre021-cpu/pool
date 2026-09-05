@@ -20,8 +20,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -59,8 +57,6 @@ private const val TimelineReminderPositionFraction = 0.72f
 @Composable
 fun FourteenDayTimelinePage(
     uiState: TimelineUiState,
-    showReminders: Boolean,
-    onShowRemindersChange: (Boolean) -> Unit,
     onDayClick: (LocalDate) -> Unit,
     onEditTask: (Long) -> Unit,
     onEditOpportunity: (Long) -> Unit,
@@ -68,10 +64,7 @@ fun FourteenDayTimelinePage(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier.fillMaxSize()) {
-        TimelineToolbar(
-            showReminders = showReminders,
-            onShowRemindersChange = onShowRemindersChange,
-        )
+        TimelineToolbar()
 
         if (uiState.days.isEmpty()) {
             Box(
@@ -140,15 +133,12 @@ private fun dayBackgroundColor(isToday: Boolean): Color =
 
 @Composable
 private fun TimelineToolbar(
-    showReminders: Boolean,
-    onShowRemindersChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
@@ -156,26 +146,6 @@ private fun TimelineToolbar(
             style = MaterialTheme.typography.labelLarge,
             color = PoolColors.TextSecondary,
         )
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            Text(
-                text = "显示提醒",
-                style = MaterialTheme.typography.labelMedium,
-                color = PoolColors.TextSecondary,
-            )
-            Switch(
-                checked = showReminders,
-                onCheckedChange = onShowRemindersChange,
-                colors = SwitchDefaults.colors(
-                    checkedThumbColor = Color.White,
-                    checkedTrackColor = PoolColors.AccentPrimary,
-                    uncheckedThumbColor = Color.White,
-                    uncheckedTrackColor = PoolColors.Divider,
-                ),
-            )
-        }
     }
 }
 

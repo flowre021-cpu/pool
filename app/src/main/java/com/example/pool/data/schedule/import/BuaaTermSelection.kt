@@ -8,7 +8,7 @@ enum class BuaaTermSeason(val label: String) {
     AUTUMN("秋季"),
 }
 
-/** 北航课表 API 请求模式：春/夏按周拉取，秋季一次拉全学期。 */
+/** 北航课表 API 请求模式。网页端个人课表使用 `type=week` 并传入周次。 */
 enum class BuaaScheduleFetchMode(val typeParam: String) {
     BY_WEEK("week"),
     BY_CLASS("class"),
@@ -36,10 +36,8 @@ object BuaaTermSelection {
         BuaaTermSeason.AUTUMN -> "$calendarYear-fall"
     }
 
-    fun fetchMode(season: BuaaTermSeason): BuaaScheduleFetchMode = when (season) {
-        BuaaTermSeason.SPRING, BuaaTermSeason.SUMMER -> BuaaScheduleFetchMode.BY_WEEK
-        BuaaTermSeason.AUTUMN -> BuaaScheduleFetchMode.BY_CLASS
-    }
+    fun fetchMode(@Suppress("UNUSED_PARAMETER") season: BuaaTermSeason): BuaaScheduleFetchMode =
+        BuaaScheduleFetchMode.BY_WEEK
 
     fun defaultSelection(date: LocalDate = LocalDate.now()): Pair<Int, BuaaTermSeason> = when (date.monthValue) {
         in 8..12 -> date.year to BuaaTermSeason.AUTUMN

@@ -2,7 +2,9 @@ package com.example.pool.ui.course
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -13,6 +15,8 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -27,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
@@ -61,6 +66,7 @@ fun ScheduleGridScreen(
     onAddCourse: (dayOfWeek: Int?, startSection: Int?) -> Unit,
     onEditCourse: (courseId: Long) -> Unit,
     onOpenSettings: () -> Unit,
+    onOpenImport: () -> Unit,
 ) {
     val viewModel: CourseViewModel = viewModel(
         factory = CourseViewModelFactory(scheduleRepository),
@@ -97,12 +103,17 @@ fun ScheduleGridScreen(
     val visibleCourses = remember(courseEntities, currentWeek, activeSemester) {
         courseEntities
             .filter { course ->
-                activeSemester == null ||
-                    course.semesterId == null ||
-                    course.semesterId == activeSemester?.id
+                activeSemester == null || course.semesterId == activeSemester?.id
             }
             .filter { currentWeek in it.selectedWeeks }
             .map { it.toUiCourse() }
+    }
+    val hasCoursesForActiveSemester = remember(courseEntities, activeSemester) {
+        if (activeSemester == null) {
+            courseEntities.isNotEmpty()
+        } else {
+            courseEntities.any { it.semesterId == activeSemester?.id }
+        }
     }
 
     val weekTitle = remember(currentWeek, activeSemester) {
@@ -228,14 +239,14 @@ fun ScheduleGridScreen(
     ) { padding ->
         when {
             weekDateList.isEmpty() -> {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(padding)
-                        .padding(16.dp),
-                ) {
-                    Text("请先在设置中添加并选择当前学期", color = PoolColors.TextSecondary)
-                }
+                ScheduleFirstUseGuide(
+                    title = "开始设置你的课表",
+                    description = "从北航教务导入时会自动创建并启用所选学期。",
+                    onOpenImport = onOpenImport,
+                    onSecondaryAction = onOpenSettings,
+                    secondaryActionLabel = "手动设置学期",
+                    modifier = Modifier.padding(padding),
+                )
             }
             timeSlots.isEmpty() -> {
                 Column(
@@ -246,6 +257,16 @@ fun ScheduleGridScreen(
                 ) {
                     Text("节次时间未配置，请前往设置", color = PoolColors.TextSecondary)
                 }
+            }
+            !hasCoursesForActiveSemester -> {
+                ScheduleFirstUseGuide(
+                    title = "当前学期还没有课程",
+                    description = "可以从北航教务一键导入，也可以手动添加课程。",
+                    onOpenImport = onOpenImport,
+                    onSecondaryAction = { onAddCourse(null, null) },
+                    secondaryActionLabel = "手动添加课程",
+                    modifier = Modifier.padding(padding),
+                )
             }
             else -> {
                 ScheduleScrollableContent(
@@ -270,6 +291,50 @@ fun ScheduleGridScreen(
                     onSectionClick = { slot -> editingTimeSlot = slot },
                 )
             }
+        }
+    }
+}
+
+@Composable
+private fun ScheduleFirstUseGuide(
+    title: String,
+    description: String,
+    onOpenImport: () -> Unit,
+    onSecondaryAction: () -> Unit,
+    secondaryActionLabel: String,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = 32.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ) {
+        Text(
+            text = title,
+            style = androidx.compose.material3.MaterialTheme.typography.titleLarge,
+            color = PoolColors.TextPrimary,
+        )
+        Text(
+            text = description,
+            style = androidx.compose.material3.MaterialTheme.typography.bodyMedium,
+            color = PoolColors.TextSecondary,
+            modifier = Modifier.padding(top = 8.dp, bottom = 24.dp),
+        )
+        Button(
+            onClick = onOpenImport,
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text("从北航教务导入")
+        }
+        OutlinedButton(
+            onClick = onSecondaryAction,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp),
+        ) {
+            Text(secondaryActionLabel)
         }
     }
 }
